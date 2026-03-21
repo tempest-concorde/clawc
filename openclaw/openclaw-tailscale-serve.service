@@ -1,0 +1,13 @@
+[Unit]
+Description=Tailscale Serve for OpenClaw
+After=tailscaled.service openclaw.service
+Requires=tailscaled.service openclaw.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/tailscale serve --bg http://localhost:18789
+ExecStop=/usr/bin/tailscale serve off
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+{
+  "default": [{"type": "reject"}],
+  "transports": {
+    "docker": {
+      "quay.io/rh-ee-chbutler/rhel-dev": [
+        {
+          "type": "sigstoreSigned",
+          "keyPath": "/usr/share/pki/sigstore/cosign.pub",
+          "signedIdentity": {"type": "matchRepository"}
+        }
+      ],
+      "quay.io/rh-ee-chbutler/clawc": [
+        {
+          "type": "sigstoreSigned",
+          "keyPath": "/usr/share/pki/sigstore/cosign.pub",
+          "signedIdentity": {"type": "matchRepository"}
+        }
+      ]
+    }
+  }
+}
