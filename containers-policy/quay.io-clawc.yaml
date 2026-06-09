@@ -1,0 +1,3 @@
+docker:
+  quay.io/rh-ee-chbutler/clawc:
+    use-sigstore-attachments: true

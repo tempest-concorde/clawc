@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone target="DROP">
+  <short>Tailscale</short>
+  <description>Tailscale VPN interface - allows OpenClaw and SSH only</description>
+  <service name="ssh"/>
+  <port protocol="tcp" port="443"/>
+</zone>

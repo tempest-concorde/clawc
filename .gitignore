@@ -1,0 +1,22 @@
+# Private keys - NEVER commit
+*.pem
+cosign.key
+
+# Generated configs
+config.toml
+.envrc
+docker-auth.json
+
+# Build output
+output/
+
+# Node
+node_modules/
+
+# Environments
+.env
+.venv
+env/
+venv/
+.vscode/
+.claude/

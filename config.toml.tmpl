@@ -1,0 +1,40 @@
+[customizations.installer.kickstart]
+contents = """
+graphical
+lang en_US.UTF-8
+keyboard us
+timezone UTC
+network --bootproto=dhcp --device=link --activate --onboot=on --hostname=clawc
+zerombr
+
+autopart --type=plain
+
+# https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/appendixes/Kickstart_Syntax_Reference/#sect-kickstart-commands-users-groups
+# Generate an ssh key using the command `openssl passwd -6`
+
+
+
+
+rootpw --lock
+group --name={{ env.Getenv "USERNAME" }} --gid=1000
+user --name {{ env.Getenv "USERNAME" }} --uid=1000 --gid=1000  --shell=/bin/bash --groups=wheel --password='{{ env.Getenv "PASSWORD_HASH" }}' --iscrypted
+sshkey --username="{{ env.Getenv "USERNAME" }}" "{{ strings.TrimSpace (file.Read (env.Getenv "SSH_KEY_PATH")) }}"
+sshkey --username=root "{{ strings.TrimSpace (file.Read (env.Getenv "SSH_KEY_PATH")) }}"
+
+%post
+mkdir -p /etc/ostree
+cat > /etc/ostree/auth.json << 'EOF'
+{{ file.Read (env.Getenv "DOCKER_AUTH_PATH") }}
+EOF
+
+{{ if env.Getenv "GRUB_PASSWORD_HASH" }}
+# GRUB password protection (experimental)
+# Prevents kernel arg tampering (selinux=0, enforcing=0) at boot menu
+grub2-setpassword --password-hash '{{ env.Getenv "GRUB_PASSWORD_HASH" }}'
+{{ end }}
+
+%end
+
+reboot --eject
+
+"""
